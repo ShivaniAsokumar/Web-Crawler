@@ -106,6 +106,7 @@ public class WebCrawler {
         String bodyText = this.htmlDocument.body().text();
         return bodyText.toLowerCase().contains(searchWord.toLowerCase());
     }
+    
 
 }//end
 
