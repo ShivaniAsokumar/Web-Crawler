@@ -98,11 +98,11 @@ public class MaxHeap extends Exception{
 
     public void MaxHeapInsert(int[] A, int key){
         heapSize++;
-        A[heapSize] = Integer.MIN_VALUE;
+        A[heapSize - 2] = Integer.MIN_VALUE;
         try {
-            this.HeapIncreaseKey(A, heapSize, key);
+            this.HeapIncreaseKey(A, heapSize - 2, key);
         } catch (Exception e){
-            System.out.println("Something wrong with HeapIncreaseKey");
+            System.out.println(e.getMessage());
         }
         
     }
@@ -116,7 +116,7 @@ public class MaxHeap extends Exception{
         MaxHeap heap = new MaxHeap();
         heap.BuildMaxHeap(A);
         try {
-            heap.HeapIncreaseKey(A, 8, 15);
+            heap.MaxHeapInsert(A, 15);
         }catch(Exception e){
             System.out.println(e.getMessage());
         }

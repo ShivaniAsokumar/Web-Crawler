@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Scanner;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -107,6 +108,17 @@ public class WebCrawler {
         return bodyText.toLowerCase().contains(searchWord.toLowerCase());
     }
     
+    public static void main(String[] args) {
+        System.out.println("Please Enter the Keyword: ");
+        Scanner scan = new Scanner(System.in);
+        String keyword = scan.nextLine();
+
+        WebCrawler crawler = new WebCrawler(keyword);
+        crawler.search();
+        
+
+
+    }
 
 }//end
 
