@@ -1,0 +1,9 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/Users/shivani/jsoup/src/**/*.jar",
+        "/Users/shivani/jsoup/target/jsoup-1.14.1-SNAPSHOT-javadoc.jar",
+        "/Users/shivani/jsoup/target/jsoup-1.14.1-SNAPSHOT-sources.jar",
+        "/Users/shivani/jsoup/target/jsoup-1.14.1-SNAPSHOT.jar"
+    ]
+}
