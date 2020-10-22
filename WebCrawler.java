@@ -19,7 +19,6 @@ public class WebCrawler extends MaxHeap {
     private String url;
     private String keyword;
     private Set<String> urls = new HashSet<String>();
-    private String pageRankURL;
 
     private static final String USER_AGENT = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)";
     private Document htmlDocument;
@@ -123,26 +122,6 @@ public class WebCrawler extends MaxHeap {
         }
 
         return pageRankMapper;
-
-        // List<Map.Entry<String, Integer> > list = 
-        //        new LinkedList<Map.Entry<String, Integer> >(map.entrySet()); 
-  
-        // // Sort the list 
-        // Collections.sort(list, Collections.reverseOrder(new Comparator<Map.Entry<String, Integer>>() { 
-        //     public int compare(Map.Entry<String, Integer> o1,  
-        //                        Map.Entry<String, Integer> o2) 
-        //     { 
-        //         return (o1.getValue()).compareTo(o2.getValue()); 
-        //     } 
-        // })); 
-          
-        // // put data from sorted list to hashmap  
-        // HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>(); 
-        // for (Map.Entry<String, Integer> aa : list) { 
-        //     temp.put(aa.getKey(), aa.getValue()); 
-        // } 
-        // return temp; 
-
         
     }
 
@@ -205,16 +184,11 @@ public class WebCrawler extends MaxHeap {
      * @param map The HashMap containing the 30 URL's.
      * @return A sorted Array containing the page rank scores.
      */
-    public int[] HeapSortPageRank(PageRank[] pageRank){
-       
-        int[] sums = new int[30];
-        for(int i = 0; i < pageRank.length; i++){
-            sums[i] = pageRank[i].getScore();
-        }
-
+     //! Is this method necessary?
+    public PageRank[] HeapSortPageRank(PageRank[] pageRank){
         MaxHeap heap = new MaxHeap(this.url, 0);
-        heap.Heapsort(sums);
-        return sums;
+        heap.Heapsort(pageRank);
+        return pageRank;
     }
 
     public void PrintPageRank(PageRank[] pageRank){
@@ -226,19 +200,6 @@ public class WebCrawler extends MaxHeap {
         }
     }
 
-    // public TreeMap<Integer,String> PageRankTreeMap(HashMap<Integer,String> map){
-    //     //Need to reverse it from Highest to Lowest
-    //     TreeMap<Integer,String> sortedPageRank = new TreeMap<>(Collections.reverseOrder());
-
-    //     for (int score : map.keySet()){
-    //         String url = map.get(score);
-
-    //         sortedPageRank.put(score, url); 
-    //     }
-
-    //     return sortedPageRank;
-    // }
-    
     public PageRank[] StoreURLsInQueue(){
         PageRank[] pageRank = this.CalculatePageRank(this.getUrls());
         PageRank[] result = new PageRank[20];
@@ -260,31 +221,30 @@ public class WebCrawler extends MaxHeap {
         return P;
     }
 
-    public String MaxPageRank(int[] A){
+    public PageRank MaxPageRank(PageRank[] A){
         MaxHeap heap = new MaxHeap(this.url, 0);
-        int max; 
+        PageRank max = new PageRank(this.url, 0);
         try{
             max = heap.HeapExtractMax(A);
+            
         }
         catch (Exception e){
-            return e.getMessage();
+            System.out.println(e.getMessage());
         }
 
-        HashMap<String,Integer> map = this.CalculatePageRank(this.getUrls());
-        String answer = "";
-        for(String url : map.keySet()){
-            int value = map.get(url);
-            if (value == max){
-                answer = url;
-                return answer;
-            }
-        }
-        return answer; // ? Is this line going to cause problems
+        return max;
 
     }
 
-    public void IncreaseScore(){
-        
+    public PageRank[] IncreaseScore(PageRank[] A, int i, int key){
+        MaxHeap heap = new MaxHeap(this.url, 0);
+        try{
+            heap.HeapIncreaseKey(A, i, key);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        return A;
     }
     
     
@@ -302,14 +262,6 @@ public class WebCrawler extends MaxHeap {
         }
     }
 
-    // public void PrintMap(Map<String, Integer> map){
-    //     int count = 1;
-    //     for (String url: map.keySet()){
-    //         int score = map.get(url);
-    //         System.out.println(count + ". " + url + ": " + score); 
-    //         count++;
-    //     }
-    // } 
 
     public void PrintPageRank(Map<Integer, String> map){
         int count = 1;
@@ -346,10 +298,21 @@ public class WebCrawler extends MaxHeap {
         }
 
 
+        MaxHeap heap = new MaxHeap("sdfsdf", 0);
+        heap.BuildMaxHeap(p);
+        try {
+            heap.MaxHeapInsert(p, 15);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        crawler.BuildMaxHeap(p);
+        crawler.PrintPageRank(p);
+
         
 
         scan.close();
     }
 
-}//end
+}
 
