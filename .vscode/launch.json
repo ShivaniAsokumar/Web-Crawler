@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - PageRank",
+            "request": "launch",
+            "mainClass": "PageRank",
+            "projectName": "PA_1_dd670c0e"
+        },
+        {
+            "type": "java",
             "name": "Debug (Launch)-WebCrawler<PA_1_dd670c0e>",
             "request": "launch",
             "mainClass": "WebCrawler",
@@ -18,7 +25,5 @@
             "mainClass": "MaxHeap",
             "projectName": "PA_1_dd670c0e"
         }
-        
-       
     ]
 }
