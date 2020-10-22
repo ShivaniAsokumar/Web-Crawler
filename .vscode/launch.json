@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch)-WebCrawler<PA_1_dd670c0e>",
+            "request": "launch",
+            "mainClass": "WebCrawler",
+            "projectName": "PA_1_dd670c0e"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-MaxHeap<PA_1_dd670c0e>",
+            "request": "launch",
+            "mainClass": "MaxHeap",
+            "projectName": "PA_1_dd670c0e"
+        }
+        
+       
+    ]
+}

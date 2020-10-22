@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  * Searches the web for URL's based on user inputed keywords.
  * @author Shivani Asokumar
  */
-public class WebCrawler extends MaxHeap{
+public class WebCrawler extends MaxHeap {
 
     private String url;
     private String keyword;
@@ -97,11 +97,11 @@ public class WebCrawler extends MaxHeap{
      * @param set A Set containing the 30 URL's.
      * @return HashMap<String, Integer> A HashMap with each URL storing its PageRank score.
      */
-    public HashMap<Integer,String> CalculatePageRank(Set<String> set){
+    public HashMap<String,Integer> CalculatePageRank(Set<String> set){
 
-        HashMap<Integer, String> map = new HashMap<>();
-
+        HashMap<String, Integer> map = new HashMap<>();
         for (String url : set){
+            
             // Generate random integer for PageRank score.
             Random rand = new Random();
 
@@ -113,10 +113,29 @@ public class WebCrawler extends MaxHeap{
 
             int sum = score1 + score2 + score3 + score4;
 
-            map.put(sum, url);
+            map.put(url, sum);
         }
 
-        return map;
+        List<Map.Entry<String, Integer> > list = 
+               new LinkedList<Map.Entry<String, Integer> >(map.entrySet()); 
+  
+        // Sort the list 
+        Collections.sort(list, Collections.reverseOrder(new Comparator<Map.Entry<String, Integer>>() { 
+            public int compare(Map.Entry<String, Integer> o1,  
+                               Map.Entry<String, Integer> o2) 
+            { 
+                return (o1.getValue()).compareTo(o2.getValue()); 
+            } 
+        })); 
+          
+        // put data from sorted list to hashmap  
+        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>(); 
+        for (Map.Entry<String, Integer> aa : list) { 
+            temp.put(aa.getKey(), aa.getValue()); 
+        } 
+        return temp; 
+
+        
     }
 
     
@@ -192,12 +211,13 @@ public class WebCrawler extends MaxHeap{
     }
 
     public TreeMap<Integer,String> PageRankTreeMap(HashMap<Integer,String> map){
-        TreeMap<Integer,String> sortedPageRank = new TreeMap<>();
+        //Need to reverse it from Highest to Lowest
+        TreeMap<Integer,String> sortedPageRank = new TreeMap<>(Collections.reverseOrder());
 
         for (int score : map.keySet()){
             String url = map.get(score);
 
-            sortedPageRank.put(score, url);
+            sortedPageRank.put(score, url); 
         }
 
         return sortedPageRank;
@@ -211,9 +231,59 @@ public class WebCrawler extends MaxHeap{
 		return this.url.hashCode() + this.keyword.hashCode();
     }
     
-    public int compareTo(Comparable<WebCrawler> other) {
-        return 0;
+    public ArrayList<String> StoreURLInQueue(){
+        HashMap<String,Integer> map = this.CalculatePageRank(this.getUrls());
+        ArrayList<String> list= new ArrayList<String>();
+
+        Set<String> set = map.keySet();
+
+        int count = 0;
+        Iterator<String> it = set.iterator();
+        while (it.hasNext() && count < 20){
+            list.add(it.next());
+            count++;
+        }
+
+        return list;
+
     }
+
+    // ! Come back to this
+    public int[] InsertURL(int[] A, String url, int score){
+        MaxHeap heap = new MaxHeap();
+        heap.MaxHeapInsert(A, score);
+
+        return A;
+    }
+
+    public String MaxPageRank(int[] A){
+        MaxHeap heap = new MaxHeap();
+        int max; 
+        try{
+            max = heap.HeapExtractMax(A);
+        }
+        catch (Exception e){
+            return e.getMessage();
+        }
+
+        HashMap<String,Integer> map = this.CalculatePageRank(this.getUrls());
+        String answer = "";
+        for(String url : map.keySet()){
+            int value = map.get(url);
+            if (value == max){
+                answer = url;
+                return answer;
+            }
+        }
+        return answer; // ? Is this line going to cause problems
+
+    }
+
+    public void IncreaseScore(){
+        
+    }
+    
+    
     
     /** 
      * Prints out a given Set.
@@ -228,11 +298,11 @@ public class WebCrawler extends MaxHeap{
         }
     }
 
-    public void PrintMap(Map<Integer, String> map){
+    public void PrintMap(Map<String, Integer> map){
         int count = 1;
-        for (int score: map.keySet()){
-            String url = map.get(score);
-            System.out.println(score + ": " + url); 
+        for (String url: map.keySet()){
+            int score = map.get(url);
+            System.out.println(count + ". " + url + ": " + score); 
             count++;
         }
     } 
@@ -260,14 +330,16 @@ public class WebCrawler extends MaxHeap{
         WebCrawler crawler = new WebCrawler(keyword);
         crawler.search();
         Set<String> urls = crawler.getUrls();
-        
-        HashMap<Integer,String> pageRankMap = crawler.CalculatePageRank(urls);
-        TreeMap<Integer,String> treeMap = crawler.PageRankTreeMap(pageRankMap);
+        crawler.PrintSet(urls);
+
+        HashMap<String,Integer> pageRankMap = crawler.CalculatePageRank(urls);
+        // TreeMap<Integer,String> treeMap = crawler.PageRankTreeMap(pageRankMap);
 
         System.out.println("Would you like to see PageRank Score? (Y): ");
         String answer = scan.nextLine();
         if(answer.equals("Y") || answer.equals("y") || answer.equals("Yes") || answer.equals("yes")){
-            crawler.PrintMap(treeMap);
+            crawler.PrintMap(pageRankMap);
+            
         }
 
         
