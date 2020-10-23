@@ -100,7 +100,7 @@ public class WebCrawler extends MaxHeap {
     public PageRank[] CalculatePageRank(Set<String> set){
 
         PageRank[] pageRankMapper = new PageRank[30]; // ! This might be causing errors in HeapInsertKey
-        int count = 0;
+        int count = 0; 
         for (String url : set){
             
             // Generate random integer for PageRank score.
@@ -191,14 +191,6 @@ public class WebCrawler extends MaxHeap {
         return pageRank;
     }
 
-    public void PrintPageRank(PageRank[] pageRank){
-        int count = 1;
-        Arrays.sort(pageRank, Collections.reverseOrder());
-        for(PageRank p : pageRank){
-            System.out.println(count + ". " + p.getURL() + ", Page Rank Score: " + p.getSum());
-            count++;
-        }
-    }
 
     public PageRank[] StoreURLsInQueue(){
         PageRank[] pageRank = this.CalculatePageRank(this.getUrls());
@@ -216,7 +208,7 @@ public class WebCrawler extends MaxHeap {
     // ! Come back to this
     public PageRank[] InsertURL(PageRank[] P, PageRank pageRank){
         MaxHeap heap = new MaxHeap();
-        heap.MaxHeapInsert(P, pageRank.getSum());
+        heap.MaxHeapInsert(P, pageRank);
 
         return P;
     }
@@ -236,10 +228,10 @@ public class WebCrawler extends MaxHeap {
 
     }
 
-    public PageRank[] IncreaseScore(PageRank[] A, int i, int key){
+    public PageRank[] IncreaseScore(PageRank[] A, int i, PageRank key){
         MaxHeap heap = new MaxHeap();
         try{
-            heap.HeapIncreaseKey(A, i, key);
+            heap.HeapIncreaseKey(A, i, key.getSum());
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -247,7 +239,15 @@ public class WebCrawler extends MaxHeap {
         return A;
     }
     
-    
+    public void PrintPageRank(PageRank[] pageRank){
+        int count = 1;
+        // Arrays.sort(pageRank, Collections.reverseOrder());
+        Collections.reverse(Arrays.asList(pageRank)); // ? Code from geeks for geeks. Is this okay to use?
+        for(PageRank p : pageRank){
+            System.out.println(count + ". " + p.getURL() + ", Page Rank Score: " + p.getSum());
+            count++;
+        }
+    }
     
     /** 
      * Prints out a given Set.
@@ -264,44 +264,6 @@ public class WebCrawler extends MaxHeap {
 
     
     
-    /** 
-     * This is the main method.
-     * @param args 
-     */
-    public static void main(String[] args) {
-        System.out.println("Please Enter the Keyword: ");
-        Scanner scan = new Scanner(System.in);
-        String keyword = scan.nextLine();
-
-        
-        WebCrawler crawler = new WebCrawler(keyword);
-        crawler.search();
-        Set<String> urls = crawler.getUrls();
-        PageRank[] p = crawler.CalculatePageRank(urls);
-
-        
-
-        System.out.println("Would you like to see PageRank Score in order? (Y): ");
-        String answer = scan.nextLine();
-        if(answer.equals("Y") || answer.equals("y") || answer.equals("Yes") || answer.equals("yes")){
-            crawler.PrintPageRank(p);
-            
-        }
-
-
-        MaxHeap heap = new MaxHeap();
-        heap.BuildMaxHeap(p);
-        try {
-            heap.MaxHeapInsert(p, 15);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-
-        crawler.BuildMaxHeap(p);
-        crawler.PrintPageRank(p);
-
-        scan.close();
-    }
 
 }
 

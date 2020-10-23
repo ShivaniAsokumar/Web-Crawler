@@ -34,19 +34,80 @@ public class WebCrawlerRunner{
                 System.out.println("Score 4: " + pageRank.getScore4());
             }
         }
+        MaxHeap heap = new MaxHeap();
+        PageRank rank = new PageRank(20,20,20,20,"DummyURL", 600);
 
         // Allow users to view the sorted PageRank
         System.out.println("Would you like to view the PageRank in sorted order? (Y): ");
         String sortedPageRank = scan.nextLine();
         if(sortedPageRank.equals("Y") || sortedPageRank.equals("y") || sortedPageRank.equals("Yes") || sortedPageRank.equals("yes")){
+            // heap.Heapsort(p);
             crawler.PrintPageRank(p);
         }
 
-        // Test MaxHeapInsert
-        MaxHeap heap = new MaxHeap();
+
+        
+
+        // // Builds Max Heap
+        System.out.println("======Builds Max Heap======");
+        System.out.println();
         heap.BuildMaxHeap(p);
-        heap.MaxHeapInsert(p, 10);
         crawler.PrintPageRank(p);
+        System.out.println();
+
+        // // MaxHeapify
+        // System.out.println("======MaxHeapify======");
+        // System.out.println();
+        // heap.MaxHeapify(p, 10);
+        // crawler.PrintPageRank(p);
+        // System.out.println();
+
+
+        // // Heap Maximum
+        // System.out.println("======Heap Maximum=====");
+        // System.out.println();
+        // System.out.println(heap.HeapMaximum(p).getURL() + ": " + heap.HeapMaximum(p).getSum());
+        // System.out.println();
+
+        // Heap Extract Max
+        // System.out.println("======Heap Extract Max=====");
+        // System.out.println();
+        
+        // try{
+        //     PageRank extractMax = heap.HeapExtractMax(p);
+        //     System.out.println(extractMax.getURL() + ": " + extractMax.getSum());
+        // } catch(Exception e){
+        //     System.out.println(e.getMessage());
+        // }
+        // crawler.PrintPageRank(p);
+        // System.out.println();
+
+        // HeapSort
+        // System.out.println("======HeapSort=======");
+        // System.out.println();
+        // heap.Heapsort(p);
+        // crawler.PrintPageRank(p);
+        // System.out.println();
+
+
+        // Heap Increase Key
+        // System.out.println("======Heap Increase Key=====");
+        // System.out.println();
+
+        // try{
+        //     heap.HeapIncreaseKey(p, 0, 600);
+        // } catch (Exception e){
+        //     System.out.println(e.getMessage());
+        // }
+        // crawler.PrintPageRank(p);
+        // System.out.println();
+
+        // Max Heap Insert
+        System.out.println("======Heap Insert Key=====");
+        System.out.println();
+        heap.MaxHeapInsert(p, rank);
+        crawler.PrintPageRank(p);
+        
 
         scan.close();
     }
