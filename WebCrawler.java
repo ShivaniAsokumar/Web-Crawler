@@ -37,11 +37,11 @@ public class WebCrawler extends MaxHeap {
      * Creates a Web Crawler based on keyword.
      * @param aKeyword A string that the user inputs.
      */
-    WebCrawler(String aKeyword, String pageRankURL, int score) {
-        super(pageRankURL, score);
+    WebCrawler(String aKeyword) {
         keyword = aKeyword;
         url = "https://google.com/search?q=" + aKeyword + "&num=80";
     }
+
 
     /**
      * Starts the Web Crawler.
@@ -99,7 +99,7 @@ public class WebCrawler extends MaxHeap {
      */
     public PageRank[] CalculatePageRank(Set<String> set){
 
-        PageRank[] pageRankMapper = new PageRank[30];
+        PageRank[] pageRankMapper = new PageRank[30]; // ! This might be causing errors in HeapInsertKey
         int count = 0;
         for (String url : set){
             
@@ -115,7 +115,7 @@ public class WebCrawler extends MaxHeap {
             int sum = score1 + score2 + score3 + score4;
 
             // Create PageRank object with url and sum
-            PageRank pageRank = new PageRank(url, sum);
+            PageRank pageRank = new PageRank(score1, score2, score3, score4, url, sum);
             pageRankMapper[count] = pageRank;
 
             count++;
@@ -186,7 +186,7 @@ public class WebCrawler extends MaxHeap {
      */
      //! Is this method necessary?
     public PageRank[] HeapSortPageRank(PageRank[] pageRank){
-        MaxHeap heap = new MaxHeap(this.url, 0);
+        MaxHeap heap = new MaxHeap();
         heap.Heapsort(pageRank);
         return pageRank;
     }
@@ -195,14 +195,14 @@ public class WebCrawler extends MaxHeap {
         int count = 1;
         Arrays.sort(pageRank, Collections.reverseOrder());
         for(PageRank p : pageRank){
-            System.out.println(count + ". " + p.getURL() + ", Page Rank Score: " + p.getScore());
+            System.out.println(count + ". " + p.getURL() + ", Page Rank Score: " + p.getSum());
             count++;
         }
     }
 
     public PageRank[] StoreURLsInQueue(){
         PageRank[] pageRank = this.CalculatePageRank(this.getUrls());
-        PageRank[] result = new PageRank[20];
+        PageRank[] result = new PageRank[20]; // ! This might cause problems with heapInsertKey
 
         int count = 0; 
         for(PageRank p : pageRank){
@@ -215,15 +215,15 @@ public class WebCrawler extends MaxHeap {
 
     // ! Come back to this
     public PageRank[] InsertURL(PageRank[] P, PageRank pageRank){
-        MaxHeap heap = new MaxHeap(url, 0);
-        heap.MaxHeapInsert(P, pageRank.getScore());
+        MaxHeap heap = new MaxHeap();
+        heap.MaxHeapInsert(P, pageRank.getSum());
 
         return P;
     }
 
     public PageRank MaxPageRank(PageRank[] A){
-        MaxHeap heap = new MaxHeap(this.url, 0);
-        PageRank max = new PageRank(this.url, 0);
+        MaxHeap heap = new MaxHeap();
+        PageRank max = new PageRank();
         try{
             max = heap.HeapExtractMax(A);
             
@@ -237,7 +237,7 @@ public class WebCrawler extends MaxHeap {
     }
 
     public PageRank[] IncreaseScore(PageRank[] A, int i, int key){
-        MaxHeap heap = new MaxHeap(this.url, 0);
+        MaxHeap heap = new MaxHeap();
         try{
             heap.HeapIncreaseKey(A, i, key);
         } catch (Exception e){
@@ -262,15 +262,6 @@ public class WebCrawler extends MaxHeap {
         }
     }
 
-
-    public void PrintPageRank(Map<Integer, String> map){
-        int count = 1;
-        for(int score: map.keySet()) {
-            String url = map.get(score);
-            System.out.println(count + ". " + url + ", PageRank Score: " + score);
-            count++;
-        }
-    }
     
     
     /** 
@@ -283,7 +274,7 @@ public class WebCrawler extends MaxHeap {
         String keyword = scan.nextLine();
 
         
-        WebCrawler crawler = new WebCrawler(keyword, "this.url", 0);
+        WebCrawler crawler = new WebCrawler(keyword);
         crawler.search();
         Set<String> urls = crawler.getUrls();
         PageRank[] p = crawler.CalculatePageRank(urls);
@@ -298,7 +289,7 @@ public class WebCrawler extends MaxHeap {
         }
 
 
-        MaxHeap heap = new MaxHeap("sdfsdf", 0);
+        MaxHeap heap = new MaxHeap();
         heap.BuildMaxHeap(p);
         try {
             heap.MaxHeapInsert(p, 15);
@@ -308,8 +299,6 @@ public class WebCrawler extends MaxHeap {
 
         crawler.BuildMaxHeap(p);
         crawler.PrintPageRank(p);
-
-        
 
         scan.close();
     }

@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - WebCrawlerRunner",
+            "request": "launch",
+            "mainClass": "WebCrawlerRunner",
+            "projectName": "PA_1_dd670c0e"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - PageRank",
             "request": "launch",
             "mainClass": "PageRank",
