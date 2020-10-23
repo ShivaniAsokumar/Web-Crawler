@@ -1,31 +1,52 @@
 
 import java.util.*;
-public class MaxHeap extends PageRank{
+
+/**
+ * This class builds a MaxHeap and contains its various methods.
+ * @author Shivani Asokumar
+ */
+public class MaxHeap{
+
     private int heapSize;
 
+    /**
+     * Constructs a MaxHeap with a heapSize of 0.
+     */
     public MaxHeap() {
         this.heapSize = 0;
     }
 
+    /**
+     * Gets the index of the Parent in the heap.
+     * @param i The given index.
+     * @return The index of the Parent in the heap.
+     */
     public int Parent(int i){
         return i / 2;
     }
 
+    /**
+     * Gets the index of the Left node in the heap.
+     * @param i The given index.
+     * @return The index of the Left node in the heap.
+     */
     public int Left(int i){
         return 2 * i + 1; //We are starting at index 0 so we add 1
     }
 
+    /**
+     * Gets the index of the Right node in the heap.
+     * @param i The given index.
+     * @return The index of the Right node in the heap.
+     */
     public int Right(int i){
         return 2 * i + 2; //We are starting at index 0 so we add 1
     }
 
-    // public void BuildMaxHeap(PageRank[] A){
-    //     heapSize = A.length;
-    //     for (int i = A.length / 2; i >= 0; i--){ // i >= 0 because our index starts at 0
-    //         this.MaxHeapify(A, i);
-    //     }
-    // }
-
+    /**
+     * Builds a MaxHeap with a given PageRank array.
+     * @param A The given PageRank array.
+     */
     public void BuildMaxHeap(PageRank[] A){
         heapSize = A.length - 1;
         
@@ -34,6 +55,11 @@ public class MaxHeap extends PageRank{
         }
     }
 
+    /**
+     * Makes the heap follow the rules of a MaxHeap.
+     * @param A The given PageRank array.
+     * @param i The given index where we start to MaxHeapify.
+     */
     public void MaxHeapify(PageRank[] A, int i){
         int l = this.Left(i);
         int r = this.Right(i);
@@ -50,9 +76,6 @@ public class MaxHeap extends PageRank{
             largest = r;
         }
         if(largest != i){
-            // int temp = A[i].getSum();
-            // A[i].setSum(A[largest].getSum());
-            // A[largest].setSum(temp);
             PageRank temp = A[i];
             A[i] = A[largest];
             A[largest] = temp;
@@ -61,18 +84,11 @@ public class MaxHeap extends PageRank{
         }
     }
 
-    // public void Heapsort(PageRank[] A){
 
-    //     this.BuildMaxHeap(A);
-    //     for (int i = A.length - 1; i > 0; i--){
-    //         int temp = A[0].getSum(); //Changed from A[1] to A[0] to account for index = 0
-    //         A[0].setSum(A[i].getSum());
-    //         A[i].setSum(temp);
-    //         heapSize = heapSize - 1;
-    //         this.MaxHeapify(A, 0); //Changed from 1 to 0 to account for index = 0
-    //     }
-    // }
-
+    /**
+     * Sorts the Heap in ascending order.
+     * @param A The given PageRank array
+     */
     public void Heapsort(PageRank[] A){
 
         this.BuildMaxHeap(A);
@@ -85,79 +101,73 @@ public class MaxHeap extends PageRank{
         }
     }
 
+    /**
+     * Gets the maximum element in the heap.
+     * @param A The given PageRank array.
+     * @return The maximum element in the heap.
+     */
     public PageRank HeapMaximum(PageRank[] A){
         return A[0];
     }
 
-    
+    /**
+     * Gets the maximum element in the heap and removes it from the heap.
+     * @param A The given PageRank array.
+     * @return The maximum element in the heap.
+     * @throws Exception
+     */
     public PageRank HeapExtractMax(PageRank[] A) throws Exception{
-        System.out.println(heapSize);
         if (heapSize < 1){
             throw new Exception("Heap Underflow");
         }
-        // I am account for index = 0 by changing the 1
 
         PageRank max = A[0];
         A[0] = A[heapSize];
-        heapSize--; // ! The HeapSize is decreased, but the array size remains the same. It is missing the extracted element though
-        System.out.println(heapSize);
+        heapSize--; 
 
         this.MaxHeapify(A, 0);
-        // return max 
         return max; 
         
     }
 
-    // public void HeapIncreaseKey(PageRank[] A, int i, PageRank key) throws Exception{
-    //     if (key.getSum() < A[i].getSum()){
-    //         throw new Exception("New Key is Smaller than Current Key");
-    //     }
-    //     // System.out.println(A[i].getURL() + ": " + A[i].getSum());
-    //     A[i].setSum(key.getSum());
-    //     while(i > 1 && A[this.Parent(i)].getSum() < A[i].getSum()){
-    //         int temp = A[i].getSum();
-    //         A[i].setSum(A[this.Parent(i)].getSum());
-    //         A[this.Parent(i)].setSum(temp);
 
-    //         i = this.Parent(i);
-    //     }
-    // }
-
-    public void HeapIncreaseKey(PageRank[] A, int i, int key) throws Exception{
-        if (key < A[i].getSum()){
+    /**
+     * Increases the key of a certain URL in PageRank array.
+     * @param A The given PageRank array.
+     * @param i The given index.
+     * @param key The given PageRank object, which has both URL and Sum.
+     * @throws Exception
+     */
+    public void HeapIncreaseKey(PageRank[] A, int i, PageRank key) throws Exception{
+        if (key.getSum() < A[i].getSum()){
             throw new Exception("New Key is Smaller than Current Key");
         }
-        // System.out.println(A[i].getURL() + ": " + A[i].getSum());
-        A[i].setSum(key);
-        while(i > 1 && A[this.Parent(i)].getSum() < A[i].getSum()){
-            int temp = A[i].getSum();
-            A[i].setSum(A[this.Parent(i)].getSum());
-            A[this.Parent(i)].setSum(temp);
+        
+        A[i].setSum(key.getSum());
+        A[i].setURL(key.getURL());
+
+        while(i > 0 && A[this.Parent(i)].getSum() < A[i].getSum()){
+            PageRank temp = A[i];
+            A[i] = A[this.Parent(i)];
+            A[this.Parent(i)] = temp;
 
             i = this.Parent(i);
         }
-    }
+    } 
 
-    // // ! When inserting, it doesn't add element. It just increases key of last element
-    // public void MaxHeapInsert(PageRank[] A, int key){
-    //     heapSize++;
-    //     A[heapSize - 2].setSum(Integer.MIN_VALUE);
-    //     try {
-    //         this.HeapIncreaseKey(A, heapSize - 2, key);
-    //     } catch (Exception e){
-    //         System.out.println(e.getMessage());
-    //     }
-        
-    // }
-
-    // ! When inserting, it doesn't add element. It just increases key of last element
+    /**
+     * Inserts a given PageRank object into the PageRank array.
+     * @param A The given PageRank array.
+     * @param key The given PageRank object.
+     */
     public void MaxHeapInsert(PageRank[] A, PageRank key){
-        heapSize++;
-        System.out.println(heapSize);
-        A[heapSize - 1].setSum(Integer.MIN_VALUE);
+        // heapSize++;
+        heapSize = A.length - 1;
+        // System.out.println(heapSize);
+        A[heapSize].setSum(Integer.MIN_VALUE);
         try {
-            System.out.println(A[heapSize - 1].getURL() + ": " + A[heapSize - 1].getSum());
-            this.HeapIncreaseKey(A, heapSize - 1, key.getSum());
+            // System.out.println(A[heapSize].getURL() + ": " + A[heapSize].getSum());
+            this.HeapIncreaseKey(A, heapSize, key);
         } catch (Exception e){
             System.out.println(e.getMessage());
         }

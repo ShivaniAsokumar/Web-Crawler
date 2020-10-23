@@ -1,4 +1,8 @@
 import java.util.*;
+/**
+ * This class is used to run all of the methods in this project.
+ * @author Shivani Asokumar
+ */
 public class WebCrawlerRunner{
     
     public static void main(String[] args) {
@@ -35,79 +39,105 @@ public class WebCrawlerRunner{
             }
         }
         MaxHeap heap = new MaxHeap();
-        PageRank rank = new PageRank(20,20,20,20,"DummyURL", 600);
+        
 
         // Allow users to view the sorted PageRank
         System.out.println("Would you like to view the PageRank in sorted order? (Y): ");
         String sortedPageRank = scan.nextLine();
         if(sortedPageRank.equals("Y") || sortedPageRank.equals("y") || sortedPageRank.equals("Yes") || sortedPageRank.equals("yes")){
-            // heap.Heapsort(p);
-            crawler.PrintPageRank(p);
+            System.out.println("=======Sorted Order=======");
+            heap.Heapsort(p);
+            crawler.PrintPageRankReverseOrder(p);
+        }
+
+        PageRank[] r = crawler.StoreURLsInQueue();
+
+        // Builds Max Heap
+        System.out.println("======Builds Max Heap======");
+        System.out.println();
+        heap.BuildMaxHeap(r);
+        crawler.PrintPageRank(r);
+        System.out.println();
+
+        // MaxHeapify
+        System.out.println("======MaxHeapify======");
+        System.out.println();
+        heap.MaxHeapify(r, 10);
+        crawler.PrintPageRank(r);
+        System.out.println();
+
+
+        // Heap Maximum
+        System.out.println("======Heap Maximum=====");
+        System.out.println();
+        System.out.println(heap.HeapMaximum(r).getURL() + ": " + heap.HeapMaximum(r).getSum());
+        System.out.println();
+
+        
+        
+         // Max Heap Insert
+         System.out.println("======Heap Insert=====");
+         System.out.println();
+
+         System.out.println("(Inserting WebURL to queue) Please enter URL: ");
+         String url = scan.nextLine();
+         System.out.println("(Inserting WebURL to queue) Please enter Sum: ");
+         int sum = scan.nextInt();
+         scan.nextLine();
+         PageRank rank = new PageRank(20,20,20,20,url, sum);
+         heap.MaxHeapInsert(r, rank);
+         crawler.PrintPageRankReverseOrder(r);
+        
+
+        // Heap Extract Max
+        System.out.println("Would you like to Extract Max Number from queue? (Y): ");
+        
+        String extractMaxAnswer = scan.nextLine();
+        if(extractMaxAnswer.equals("Y") || extractMaxAnswer.equals("y") || extractMaxAnswer.equals("Yes") || extractMaxAnswer.equals("yes")){
+            System.out.println("======Queue Extract Max=====");
+            System.out.println();
+        
+            try{
+                PageRank extractMax = heap.HeapExtractMax(p);
+                System.out.println(extractMax.getURL() + ": " + extractMax.getSum());
+            } catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+            // crawler.PrintPageRank(r);
+            System.out.println();
         }
 
 
-        
-
-        // // Builds Max Heap
-        System.out.println("======Builds Max Heap======");
-        System.out.println();
-        heap.BuildMaxHeap(p);
-        crawler.PrintPageRank(p);
-        System.out.println();
-
-        // // MaxHeapify
-        // System.out.println("======MaxHeapify======");
-        // System.out.println();
-        // heap.MaxHeapify(p, 10);
-        // crawler.PrintPageRank(p);
-        // System.out.println();
-
-
-        // // Heap Maximum
-        // System.out.println("======Heap Maximum=====");
-        // System.out.println();
-        // System.out.println(heap.HeapMaximum(p).getURL() + ": " + heap.HeapMaximum(p).getSum());
-        // System.out.println();
-
-        // Heap Extract Max
-        // System.out.println("======Heap Extract Max=====");
-        // System.out.println();
-        
-        // try{
-        //     PageRank extractMax = heap.HeapExtractMax(p);
-        //     System.out.println(extractMax.getURL() + ": " + extractMax.getSum());
-        // } catch(Exception e){
-        //     System.out.println(e.getMessage());
-        // }
-        // crawler.PrintPageRank(p);
-        // System.out.println();
-
-        // HeapSort
-        // System.out.println("======HeapSort=======");
-        // System.out.println();
-        // heap.Heapsort(p);
-        // crawler.PrintPageRank(p);
-        // System.out.println();
-
-
         // Heap Increase Key
-        // System.out.println("======Heap Increase Key=====");
-        // System.out.println();
-
-        // try{
-        //     heap.HeapIncreaseKey(p, 0, 600);
-        // } catch (Exception e){
-        //     System.out.println(e.getMessage());
-        // }
-        // crawler.PrintPageRank(p);
-        // System.out.println();
-
-        // Max Heap Insert
-        System.out.println("======Heap Insert Key=====");
+        System.out.println("======Queue Increase Key=====");
         System.out.println();
-        heap.MaxHeapInsert(p, rank);
-        crawler.PrintPageRank(p);
+
+        System.out.println("(Increasing Key) Please enter index (1-19): ");
+        int index = scan.nextInt();
+        scan.nextLine();
+        System.out.println("(Increasing Key) Please enter URL: ");
+        String increaseKeyURL = scan.nextLine();
+        System.out.println("(Increasing Key) Please enter Sum: ");
+        int increaseKeySum = scan.nextInt();
+
+
+        PageRank increaseKey = new PageRank(0,0,0,0,increaseKeyURL,increaseKeySum);
+
+        try{
+            heap.HeapIncreaseKey(r, index, increaseKey);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        crawler.PrintPageRankReverseOrder(r);
+        System.out.println();
         
+        // HeapSort
+        System.out.println("======HeapSort=======");
+        System.out.println();
+        heap.Heapsort(p);
+        crawler.PrintPageRank(p);
+        System.out.println();
+
 
         scan.close();
     }

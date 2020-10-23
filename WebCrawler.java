@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  * Searches the web for URL's based on user inputed keywords.
  * @author Shivani Asokumar
  */
-public class WebCrawler extends MaxHeap {
+public class WebCrawler {
 
     private String url;
     private String keyword;
@@ -30,8 +30,6 @@ public class WebCrawler extends MaxHeap {
         patternDomainName = Pattern.compile(DOMAIN_NAME_PATTERN);
     }
 
-    // Constructor for the WebCrawler object
-    // It saved the keyword that user entered and put it into a google search link
 
     /**
      * Creates a Web Crawler based on keyword.
@@ -192,57 +190,40 @@ public class WebCrawler extends MaxHeap {
     }
 
 
+    /**
+     * Stores the first 20 out of the 30 URLs in a queue.
+     * @return An array containing the 20 PageRank objects.
+     */
     public PageRank[] StoreURLsInQueue(){
         PageRank[] pageRank = this.CalculatePageRank(this.getUrls());
-        PageRank[] result = new PageRank[20]; // ! This might cause problems with heapInsertKey
-
-        int count = 0; 
-        for(PageRank p : pageRank){
-            result[count] = p;
-            count++;
+        PageRank[] result = new PageRank[20]; 
+        for(int i = 0; i < result.length; i++){
+            PageRank p = pageRank[i];
+            result[i] = p;
         }
 
         return result;
     }
 
-    // ! Come back to this
-    public PageRank[] InsertURL(PageRank[] P, PageRank pageRank){
-        MaxHeap heap = new MaxHeap();
-        heap.MaxHeapInsert(P, pageRank);
-
-        return P;
+    /**
+     * Prints the given PageRank array in reverse order. 
+     * @param pageRank An Array of PageRank objects.
+     */
+    public void PrintPageRankReverseOrder(PageRank[] pageRank){
+        int count = 1;
+        Collections.reverse(Arrays.asList(pageRank));
+        for(PageRank p : pageRank){
+            System.out.println(count + ". " + p.getURL() + ", Page Rank Score: " + p.getSum());
+            count++;
+        }
     }
 
-    public PageRank MaxPageRank(PageRank[] A){
-        MaxHeap heap = new MaxHeap();
-        PageRank max = new PageRank();
-        try{
-            max = heap.HeapExtractMax(A);
-            
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-
-        return max;
-
-    }
-
-    public PageRank[] IncreaseScore(PageRank[] A, int i, PageRank key){
-        MaxHeap heap = new MaxHeap();
-        try{
-            heap.HeapIncreaseKey(A, i, key.getSum());
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-
-        return A;
-    }
-    
+    /**
+     * Prints the given PageRank array in regular order
+     * @param pageRank An array of PageRannk objects.
+     */
     public void PrintPageRank(PageRank[] pageRank){
         int count = 1;
-        // Arrays.sort(pageRank, Collections.reverseOrder());
-        Collections.reverse(Arrays.asList(pageRank)); // ? Code from geeks for geeks. Is this okay to use?
         for(PageRank p : pageRank){
             System.out.println(count + ". " + p.getURL() + ", Page Rank Score: " + p.getSum());
             count++;
