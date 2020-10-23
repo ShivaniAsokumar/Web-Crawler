@@ -1,6 +1,4 @@
 
-import java.util.*;
-
 /**
  * This class builds a MaxHeap and contains its various methods.
  * @author Shivani Asokumar
