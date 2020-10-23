@@ -100,7 +100,7 @@ public class PageRank implements Comparable<PageRank>{
      */
     public int compareTo(PageRank that){
         if(this.sum != that.sum){
-            return Integer.compare(this.sum, that.sum);
+            return Integer.compare(this.sum, that.sum); // Compares the sum then the URL.
         }
         return this.url.compareTo(that.url);
     }
@@ -121,7 +121,7 @@ public class PageRank implements Comparable<PageRank>{
     public boolean equals(Object other){
         PageRank that = (PageRank) other;
         if(this.getSum() == that.getSum()){
-            return this.getURL() == that.getURL();
+            return this.getURL() == that.getURL(); // Compares the Sum then the URL.
         } 
         return this.getSum() == that.getSum();
     }

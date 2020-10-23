@@ -79,14 +79,14 @@ public class WebCrawler {
     public Set<String> getUrls() {
         
         int count = 0;
-        Set<String> result = new HashSet<>(); // ! Remember to implement interface and follow the RULE
+        Set<String> result = new HashSet<>(); // Initializing HashSet
         
-        Iterator<String> it = this.urls.iterator();
+        Iterator<String> it = this.urls.iterator(); // Iterator helps traverse the given set.
         while (it.hasNext() && count < 30){
             result.add(it.next());
             count++;
         }
-        return result;
+        return result; // HashSet with 30 URLs.
     }
 
     
@@ -97,7 +97,7 @@ public class WebCrawler {
      */
     public PageRank[] CalculatePageRank(Set<String> set){
 
-        PageRank[] pageRankMapper = new PageRank[30]; // ! This might be causing errors in HeapInsertKey
+        PageRank[] pageRankMapper = new PageRank[30]; 
         int count = 0; 
         for (String url : set){
             
@@ -166,7 +166,6 @@ public class WebCrawler {
      * @param searchWord The keyword to be searched.
      * @return boolean determining weather keyword is in webpage.
      */
-    // This method will check if the website contains keyword
     public boolean searchForWord(String searchWord) {
         if (this.htmlDocument == null) {
             System.out.println("Error!");
@@ -177,28 +176,18 @@ public class WebCrawler {
         return bodyText.toLowerCase().contains(searchWord.toLowerCase());
     }
 
-    /**
-     * Uses Heap Sort to sort the page rank scores.
-     * @param map The HashMap containing the 30 URL's.
-     * @return A sorted Array containing the page rank scores.
-     */
-     //! Is this method necessary?
-    public PageRank[] HeapSortPageRank(PageRank[] pageRank){
-        MaxHeap heap = new MaxHeap();
-        heap.Heapsort(pageRank);
-        return pageRank;
-    }
-
 
     /**
-     * Stores the first 20 out of the 30 URLs in a queue.
+     * Stores the first 20 out of the 30 PageRank objects in a queue.
      * @return An array containing the 20 PageRank objects.
      */
     public PageRank[] StoreURLsInQueue(){
-        PageRank[] pageRank = this.CalculatePageRank(this.getUrls());
-        PageRank[] result = new PageRank[20]; 
+        MaxHeap heap = new MaxHeap();
+        PageRank[] pageRank = this.CalculatePageRank(this.getUrls()); // Returns array of 30 PageRanks.
+        heap.Heapsort(pageRank);
+        PageRank[] result = new PageRank[20]; // Initialize array to store the 20 PageRanks.
         for(int i = 0; i < result.length; i++){
-            PageRank p = pageRank[i];
+            PageRank p = pageRank[i]; // Transfers the objects over.
             result[i] = p;
         }
 
@@ -211,7 +200,9 @@ public class WebCrawler {
      */
     public void PrintPageRankReverseOrder(PageRank[] pageRank){
         int count = 1;
-        Collections.reverse(Arrays.asList(pageRank));
+        Collections.reverse(Arrays.asList(pageRank)); // Riverses a given array.
+
+        //Traverses the array.
         for(PageRank p : pageRank){
             System.out.println(count + ". " + p.getURL() + ", Page Rank Score: " + p.getSum());
             count++;
@@ -224,6 +215,8 @@ public class WebCrawler {
      */
     public void PrintPageRank(PageRank[] pageRank){
         int count = 1;
+
+        // Traverses the array.
         for(PageRank p : pageRank){
             System.out.println(count + ". " + p.getURL() + ", Page Rank Score: " + p.getSum());
             count++;
@@ -237,8 +230,9 @@ public class WebCrawler {
     public void PrintSet(Set<String> set){
         int count = 1;
         
+        // Traverses the set
         for(String url : set){
-            System.out.println(count + ". " + url);
+            System.out.println(count + ". " + url); //Print this way makes it easier to see the elements of the set.
             count++;
         }
     }

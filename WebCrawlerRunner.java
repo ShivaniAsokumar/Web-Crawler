@@ -86,7 +86,8 @@ public class WebCrawlerRunner{
          scan.nextLine();
          PageRank rank = new PageRank(20,20,20,20,url, sum);
          heap.MaxHeapInsert(r, rank);
-         crawler.PrintPageRankReverseOrder(r);
+        //  crawler.PrintPageRankReverseOrder(r);
+        crawler.PrintPageRank(r);
         
 
         // Heap Extract Max
@@ -98,7 +99,7 @@ public class WebCrawlerRunner{
             System.out.println();
         
             try{
-                PageRank extractMax = heap.HeapExtractMax(p);
+                PageRank extractMax = heap.HeapExtractMax(r);
                 System.out.println(extractMax.getURL() + ": " + extractMax.getSum());
             } catch(Exception e){
                 System.out.println(e.getMessage());
@@ -134,8 +135,8 @@ public class WebCrawlerRunner{
         // HeapSort
         System.out.println("======HeapSort=======");
         System.out.println();
-        heap.Heapsort(p);
-        crawler.PrintPageRank(p);
+        heap.Heapsort(r);
+        crawler.PrintPageRank(r);
         System.out.println();
 
 
