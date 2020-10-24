@@ -11,11 +11,12 @@ public class WebCrawlerRunner{
         Scanner scan = new Scanner(System.in);
         String keyword = scan.nextLine();
 
+    
         // Set up WebCrawler
         System.out.println("Would you like to view the 30 URLs? (Y): ");
-        String viewURLs = scan.nextLine();
         WebCrawler crawler = new WebCrawler(keyword);
         crawler.search();
+        String viewURLs = scan.nextLine();
         Set<String> urls = crawler.getUrls();
 
         // Allow users to see 30 URLs.
@@ -50,7 +51,10 @@ public class WebCrawlerRunner{
             crawler.PrintPageRankReverseOrder(p);
         }
 
-        PageRank[] r = crawler.StoreURLsInQueue();
+        PageRank[] r = crawler.StoreURLsInQueue(p);
+        System.out.println();
+        System.out.println("======Priority Queue With 20 URLs");
+        crawler.PrintPageRank(r);
 
         // Builds Max Heap
         System.out.println("======Builds Max Heap======");
@@ -86,7 +90,6 @@ public class WebCrawlerRunner{
          scan.nextLine();
          PageRank rank = new PageRank(20,20,20,20,url, sum);
          heap.MaxHeapInsert(r, rank);
-        //  crawler.PrintPageRankReverseOrder(r);
         crawler.PrintPageRank(r);
         
 
@@ -104,7 +107,6 @@ public class WebCrawlerRunner{
             } catch(Exception e){
                 System.out.println(e.getMessage());
             }
-            // crawler.PrintPageRank(r);
             System.out.println();
         }
 
@@ -129,7 +131,7 @@ public class WebCrawlerRunner{
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
-        crawler.PrintPageRankReverseOrder(r);
+        crawler.PrintPageRank(r);
         System.out.println();
         
         // HeapSort

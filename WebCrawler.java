@@ -71,7 +71,7 @@ public class WebCrawler {
         return url.substring(14, 42);
     }
 
-    
+
     /** 
      * Gets a Set of URL's based on the keyword that the user inputed.
      * @return Set<String> A Set containing 30 URL's.
@@ -179,12 +179,11 @@ public class WebCrawler {
 
     /**
      * Stores the first 20 out of the 30 PageRank objects in a queue.
+     * @param sorted PageRank[] that is sorted
      * @return An array containing the 20 PageRank objects.
      */
-    public PageRank[] StoreURLsInQueue(){
+    public PageRank[] StoreURLsInQueue(PageRank[] pageRank){
         MaxHeap heap = new MaxHeap();
-        PageRank[] pageRank = this.CalculatePageRank(this.getUrls()); // Returns array of 30 PageRanks.
-        heap.Heapsort(pageRank);
         PageRank[] result = new PageRank[20]; // Initialize array to store the 20 PageRanks.
         for(int i = 0; i < result.length; i++){
             PageRank p = pageRank[i]; // Transfers the objects over.

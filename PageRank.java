@@ -125,5 +125,9 @@ public class PageRank implements Comparable<PageRank>{
         } 
         return this.getSum() == that.getSum();
     }
+
+    public static void main(String[] args) {
+        PageRank pageRank1 = new PageRank(20,20,20,20,"DummyUrl.com", 80);
+    }
     
 }

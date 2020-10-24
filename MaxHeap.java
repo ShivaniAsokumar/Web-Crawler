@@ -170,14 +170,5 @@ public class MaxHeap{
         }
         
     }
-/**
-     * TODO: Questions
-     * * For MaxHeapInsert, my method is only increasing the key of the last element. It isn't adding the element. Is it supposed to add the element?
-     * * What do you mean my commment at the end of lines?
-     * * For HeapExtractMax, are we returning the sum or are we returning the URL only? I am returning a PageRank object has both. Is that okay?
-     * * For the write-up are we supposed to include the screenshots input and output for EVERY method?
-     * * For the files to turn in you have, we have to turn in both jar files and java files?
-     */
     
-
 }
